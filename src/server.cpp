@@ -24,6 +24,10 @@
 #include <sys/socket.h>
 #elif defined(__WIN32__)
 #error "Windows is not supported."
+#else  // ESP32
+#include "lwip/err.h"
+#include "lwip/sockets.h"
+#include "lwip/sys.h"
 #endif
 
 #include <bnr/detail/data.hpp>
