@@ -41,7 +41,7 @@ namespace bnr {
             return false;
         }
 
-        int y;
+        const int y = 1;
         setsockopt(sock, SOL_SOCKET, SO_BROADCAST, &y, sizeof(y));
         timeval tv = {};
         tv.tv_sec = 0;
