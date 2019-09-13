@@ -21,6 +21,7 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#include <unistd.h>
 #elif defined(__WIN32__)
 #error "Windows is not supported."
 #else  // ESP32
@@ -59,6 +60,7 @@ namespace bnr {
                    static_cast<const sockaddr *>(static_cast<const void *>(&addr)),
                    sizeof(addr)) < 0) {
             perror("bnr::Query: sendto: ");
+            close(sock);
             return false;
         }
 
@@ -72,11 +74,14 @@ namespace bnr {
                     continue;
                 } else {
                     perror("bnr::Query: recv: ");
+                    close(sock);
                     return false;
                 }
             }
             res.emplace_back(Response::FromDatagram(buf));
         }
+
+        close(sock);
         return !res.empty();
     }
 
